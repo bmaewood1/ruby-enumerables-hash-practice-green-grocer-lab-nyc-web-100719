@@ -52,5 +52,6 @@ def checkout(array, coupons)
   applied_clearance = applied_clearance(applied_coupons)
   total = applied_clearance.reduce(0) { |current_sum, (k, v)| current_sum += value[:price] * value[:count]}
   total > 100 ?  total * 0.9 : total #terenary operator
+  
 end
 
