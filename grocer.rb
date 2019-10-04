@@ -42,7 +42,12 @@ require "pry"
 def apply_clearance(cart)
   cart.each do |element_hash|
     clearance = element_hash.values[:clearance]
+    current_price = element_hash.values[:price]
+    if clearance == true
+      element_hash.values[:price] = current_price * 0.8
     binding.pry
+    elsif
+    end
   end
 end
 
