@@ -1,59 +1,52 @@
 
-cart = [
-  {"AVOCADO" => {:price => 3.00, :clearance => true }},
-  {"AVOCADO" => {:price => 3.00, :clearance => true }},
-  {"KALE"    => {:price => 3.00, :clearance => false}}
-]
-
 
 def consolidate_cart(cart)
-  cart = {}
-  cart.each do |item|
-    item_name = item.keys[0]
-    if output[item name]
-      output[item_name][:count] += 1
+  final_hash = {}
+  cart.each do |element_hash| #cart is an array of hashes, this gets us to first hash TEMPEH
+    element_name = element_hash.keys[0]    # .keys hash method returns an array with all the keys -> in this case "TEMPEH"
+    element_stats = element_hash.values[0] # .values hash method returns an array with all the values -> in this case price/clearance hash of "TEMPEH"
+    if final_hash.has_key?(element_name)
+      final_hash[element_name][:count] += 1 
     else
-      output[item_name] = item[item_name]
-      output[item_name][:count] = 1 
+      final_hash[element_name] = {
+        count: 1,
+        price: element_stats[:price],
+        clearance: element_stats[:clearance]
+      }
     end
   end
-  output
+  final_hash
 end
-
-
 
 def apply_coupons(cart, coupons)
-  # code here
+  coupons.each do |coupon|
+    item = coupon[:item]
+      if cart[item]
+        if !cart.has_key?("#{item} W/COUPON") && cart[item][:count] >= coupon[:num]
+          cart["#{item} W/COUPON"] = {
+            price: coupon[:cost] / coupon[:num],
+            clearance: cart[item][:clearance],
+            count: coupon[:num]
+          }
+        elsif cart.has_key?("#{item} W/COUPON") && cart[item][:count] >= coupon[:num]
+          cart["#{item} W/COUPON"][:count] += coupon[:num]
+        end
+        cart[item][:count] -= coupon[:num]
+      end
+    end
+  cart
 end
 
+require "pry"
+
 def apply_clearance(cart)
-  # code here
+  cart.each do |element_hash|
+    element_hash.each do |k, v|
+      binding.pry
+    end
+  end
 end
 
 def checkout(cart, coupons)
   # code here
 end
-
-describe "Grocer" do
-  let(:items) do
-    [
-      {"AVOCADO" => {:price => 3.00, :clearance => true}},
-      {"KALE" => {:price => 3.00, :clearance => false}},
-      {"BLACK_BEANS" => {:price => 2.50, :clearance => false}},
-      {"ALMONDS" => {:price => 9.00, :clearance => false}},
-      {"TEMPEH" => {:price => 3.00, :clearance => true}},
-      {"CHEESE" => {:price => 6.50, :clearance => false}},
-      {"BEER" => {:price => 13.00, :clearance => false}},
-      {"PEANUTBUTTER" => {:price => 3.00, :clearance => true}},
-      {"BEETS" => {:price => 2.50, :clearance => false}},
-      {"SOY MILK" => {:price => 4.50, :clearance => true}}
-    ]
-  end
-
-  let(:coupons) do
-    [
-      {:item => "AVOCADO", :num => 2, :cost => 5.00},
-      {:item => "BEER", :num => 2, :cost => 20.00},
-      {:item => "CHEESE", :num => 3, :cost => 15.00}
-    ]
-  end
