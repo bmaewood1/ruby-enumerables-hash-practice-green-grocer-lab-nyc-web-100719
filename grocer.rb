@@ -41,9 +41,8 @@ require "pry"
 
 def apply_clearance(cart)
   cart.each do |element_hash|
-    element_hash.each do |k, v|
-      binding.pry
-    end
+    clearance = element_hash.values[:clearance]
+    binding.pry
   end
 end
 
