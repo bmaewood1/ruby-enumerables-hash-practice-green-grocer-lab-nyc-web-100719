@@ -37,7 +37,6 @@ def apply_coupons(cart, coupons)
   cart
 end
 
-require "pry"
 
 def apply_clearance(cart)
   cart.each do |element_hash|
@@ -45,7 +44,6 @@ def apply_clearance(cart)
     current_price = element_hash.values[:price]
     if clearance == true
       element_hash.values[:price] = current_price * 0.8
-    binding.pry
     elsif
     end
   end
