@@ -45,10 +45,13 @@ def apply_clearance(cart)
   cart
 end
 
+
+require "pry"
+
 def checkout(array, coupons)
   hash_cart = consolidate_cart(array)
   applied_coupons = apply_coupons(hash_cart, coupons)
   applied_clearance = applied_clearance(applied_coupons)
-  
+  binding.pry
 end
 
